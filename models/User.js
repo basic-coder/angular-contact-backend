@@ -1,32 +1,36 @@
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = 'SECRET'
+
 const userSchema = new mongoose.Schema({
     name:{
         type:'string',
-        required: true
     },
     email:{
         type:'string',
-        required: true
     },
     photo:{
         type:'string',
-        required: true
     },
     mobile:{
         type:'string',
-        required: true
     },
     company:{
         type:'string',
-        required: true
     },
     title:{
         type:'string',
-        required: true
     },
     groupId:{
         type:'string',
-        required: true
     }
 })
+
+//JWT TOKEN
+userSchema.methods.JWTToken = function () {
+    return jwt.sign({id:this._id},JWT_SECRET,{
+        expiresIn: '5d'
+    })
+}
+
 module.exports = mongoose.model('User',userSchema)
